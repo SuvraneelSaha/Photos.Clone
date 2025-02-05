@@ -1,6 +1,7 @@
 package com.Aggin.Codes.Photos.Clone;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class PhotoController {
 
 
     // this method returns all the photos in the db
-    @GetMapping("/photoz/")
+    @GetMapping("/photoz")
     public Collection<Photo> getPhoto(){
         return db.values();
         // values is a method of the Collection Framework
@@ -31,5 +32,12 @@ public class PhotoController {
         return photo;
     }
 
+    // this method will delete a photo with specific id
+    @DeleteMapping("/photoz/{id}")
+    public void deletePhoto(@PathVariable String id){
+        Photo photo =  db.remove(id);
+        if(photo==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Photo with the specific Id is not found and Cannot Be deleted");
+
+    }
 
 }
