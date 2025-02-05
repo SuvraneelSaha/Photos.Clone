@@ -1,7 +1,10 @@
 package com.Aggin.Codes.Photos.Clone;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class Photo {
     private String id;
+    @NotEmpty
     private String fileName ;
 
     // empty constructor is need for objects analyse by the SpringBoot for Beans

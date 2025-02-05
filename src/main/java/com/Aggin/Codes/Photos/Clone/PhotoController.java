@@ -1,10 +1,8 @@
 package com.Aggin.Codes.Photos.Clone;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
@@ -37,6 +35,21 @@ public class PhotoController {
     public void deletePhoto(@PathVariable String id){
         Photo photo =  db.remove(id);
         if(photo==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Photo with the specific Id is not found and Cannot Be deleted");
+
+    }
+
+    // this method is used for posting a photo ie uploading of a photo
+    // RequestBody - Take the whole Json and convert it into the Java Object Class that we have defined ;
+    // ie it is the Photo Class
+
+    // Uptill now the photo is not persistent ; the photo is not present when the application is again loaded ;
+
+    // without the valid annotation the jSON Object will be posted / Created even if the object does not have a file Name
+    @PostMapping("/photoz")
+    public Photo createPhoto(@RequestBody @Valid Photo photo){
+        photo.setId(UUID.randomUUID().toString());
+        db.put(photo.getId(),photo);
+        return photo;
 
     }
 
